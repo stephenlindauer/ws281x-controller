@@ -1,0 +1,121 @@
+<html>
+  <head>
+    <style>
+      body {
+        background-color: black;
+        color: #ccc;
+      }
+
+      .light-preview {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        border: 1px solid #333;
+        border-radius: 5px;
+        margin: 1px;
+      }
+
+      #controls {
+        margin-top: 40px;
+        margin-left: 20px;
+      }
+
+      #controls button {
+        margin: 2px 10px;
+      }
+
+      .indexLabel {
+        display: inline-block;
+        width: 20px;
+        font-size: 9px;
+        overflow-y: hidden;
+        text-align: right;
+      }
+    </style>
+    <script>
+      var dataSize = 0;
+
+      // Colors come in as a single integer representing the hex color, ie.. 16711680 = FF0000
+      // This massages the int into hex strings we can pass directly to css
+      const colorize = (c) => {
+        // If color is blue (0000FF), the value comes in as just FF and needs to be prefixed with leading zeros.
+        // Adding 0x1000000 ensures we get the needed padding, then we just pop off the leading "1"
+        return (c + 0x1000000).toString(16).substring(1);
+      };
+
+      const setupStrip = (numLights) => {
+        lightsEl = document.getElementById("lights");
+        lightsEl.innerHTML += "<span class='indexLabel'>0</span>";
+        for (i = 0; i < numLights; i++) {
+          if (i % 50 == 0 && i != 0) {
+            // Add a line break ever 50 lights since this is how long my strips are
+            lightsEl.innerHTML += `<br /><span class='indexLabel'>${i}</span>`;
+          }
+          lightsEl.innerHTML += `<div id='light-${i}' class='light-preview'></div>`;
+        }
+      };
+
+      window.onload = (event) => {
+        const socket = new WebSocket(`ws://${location.hostname}:8081`);
+        // Connection opened
+        socket.addEventListener("open", (event) => {
+          socket.send("hello"); // It's polite to first say hello! Also, this makes the server send how many leds to use
+
+          // Print incoming bitrate every 1s
+          setInterval(() => {
+            console.log(`${parseInt(dataSize / 1000)}kbps`);
+            dataSize = 0;
+          }, 1000);
+        });
+
+        // Listen for messages
+        socket.addEventListener("message", (event) => {
+          dataSize += event.data.length;
+
+          try {
+            msg = JSON.parse(event.data);
+            if (msg.leds) {
+              setupStrip(msg.leds);
+            } else if (msg.bulb) {
+              document.getElementById(
+                "light-" + msg.bulb
+              ).style.backgroundColor = "#" + colorize(msg.color);
+            } else if (msg.colors) {
+              for (i = 0; i < msg.colors.length; i++) {
+                document.getElementById("light-" + i).style.backgroundColor =
+                  "#" + colorize(msg.colors[i]);
+              }
+            }
+          } catch (e) {}
+        });
+      };
+
+      function sendControlRequest(controlEndpoint) {
+        fetch("/api/control/" + controlEndpoint);
+      }
+
+      function usePreset(preset) {
+        fetch("/api/presets/" + preset);
+      }
+    </script>
+  </head>
+  <body>
+    <h1>Preview</h1>
+
+    <div id="lights"></div>
+
+    <div id="controls">
+      <div>Controls</div>
+      <div>
+        <button onclick="sendControlRequest('enable')">Enable</button>
+        <button onclick="sendControlRequest('disable')">Disable</button>
+      </div>
+      <div>Presets</div>
+      <div>
+        <button onclick="usePreset('demo')">Demo</button>
+        <button onclick="usePreset('blue-white')">Blue/White</button>
+        <button onclick="usePreset('red-green')">Red/Green</button>
+      </div>
+    </div>
+  </body>
+</html>
