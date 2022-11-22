@@ -83,14 +83,14 @@ class LEDSystem:
     programs: dict[int, list] = {}
     components: list[LEDComponentObject] = []
     componentMap: dict[str, LEDComponentObject] = {}
-    onChangeListener: Callable[[int, int], None]
+    onChangeListener: Callable[[int], None]
     canSendUpdate: Callable[[], bool]
     ledColor: dict[int, int] = {}
     SIMULATE = False
     it: int = 0
     enabled: bool = True
     presetFunctions: dict[str, Callable] = {}
-    currentPreset: str = None
+    currentPreset: str
     isUpdating: bool = False
 
     def __init__(self, led_count=600, skip_intro=False, simulate=False):
@@ -99,6 +99,7 @@ class LEDSystem:
         self.setupStrip()
         self.lights = []
         self.nextId = 1
+        self.currentPreset = None
         for i in range(0, led_count):
             self.ledColor[i] = -1
 
@@ -190,8 +191,8 @@ class LEDSystem:
 
         # Create nested components
         if ("components" in c):
-            min_light = float('inf')
-            max_light_end = float('-inf')
+            min_light = int('inf')
+            max_light_end = int('-inf')
             for child in c["components"]:
                 child_component = self.parseComponentFromConfig(child)
                 component.components.append(child_component)
