@@ -72,6 +72,8 @@ class LEDComponentObject:
     def clearPrograms(self):
         for depth in self.programs.keys():
             self.programs[depth] = []
+        for component in self.components:
+            component.clearPrograms()
 
 
 class LEDSystem:
