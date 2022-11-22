@@ -83,7 +83,8 @@ class LEDSystem:
     programs: dict[int, list] = {}
     components: list[LEDComponentObject] = []
     componentMap: dict[str, LEDComponentObject] = {}
-    onChangeListener = Callable[[int, int], None]
+    onChangeListener: Callable[[int, int], None]
+    canSendUpdate: Callable[[], bool]
     ledColor: dict[int, int] = {}
     SIMULATE = False
     it: int = 0
@@ -150,7 +151,8 @@ class LEDSystem:
             self.paint(NamedColor.OFF)
 
     def notifyChanges(self):
-        self.onChangeListener(list(self.ledColor.values()))
+        if self.canSendUpdate():
+            self.onChangeListener(list(self.ledColor.values()))
 
     def configure(self, config):
         for c in config["components"]:

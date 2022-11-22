@@ -197,8 +197,14 @@ if __name__ == "__main__":
                 "colors": colors
             }))
 
+    def canSendUpdate():
+        if websocket_server == None:
+            return False
+        return websocket_server.connection != None
+
     system = LEDSystem(led_count=led_count)
     system.onChangeListener = onUpdate
+    system.canSendUpdate = canSendUpdate
     system.configure(componentConfig)
     system.registerPreset(preset1, "Demo")
     system.registerPreset(preset2, "Blue/White")
