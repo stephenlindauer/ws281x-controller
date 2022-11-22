@@ -168,8 +168,8 @@ def presetBluesColors(system):
     white = (255, 255, 255)
     system.getComponentByName("root").addProgram(
         PatternProgram(
-            colors=[navy, white, yellow, blue],
-            multiplier=5,
+            colors=[navy, white, blue, blue, yellow],
+            multiplier=6,
             speed=1),
         15)
 
