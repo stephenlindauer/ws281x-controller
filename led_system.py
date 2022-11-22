@@ -13,8 +13,8 @@ from named_colors import NamedColor
 
 
 class LEDComponentObject:
-    components: list["LEDComponentObject"] = []
-    programs: dict[int, list] = {}
+    components: list["LEDComponentObject"]
+    programs: dict[int, list]
 
     def __init__(self, system: "LEDSystem", label: str, light_begin: int, length: int):
         self.system = system
@@ -22,6 +22,7 @@ class LEDComponentObject:
         self.light_begin = light_begin
         self.length = length
         self.components = []
+        self.programs = {}
 
     def toJSON(self):
         return {
