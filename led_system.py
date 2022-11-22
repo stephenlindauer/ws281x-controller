@@ -92,8 +92,9 @@ class LEDSystem:
     currentPreset: str = None
     isUpdating: bool = False
 
-    def __init__(self, led_count=600, skip_intro=False):
+    def __init__(self, led_count=600, skip_intro=False, simulate=False):
         self.led_count = led_count
+        self.SIMULATE = simulate
         self.setupStrip()
         self.lights = []
         self.nextId = 1

@@ -1,5 +1,8 @@
 from led_system import LEDSystem, LEDComponentObject
 
+# Append an index at the end of each name to avoid name duplications
+programIndex = 0
+
 
 class Program():
     name = ""
@@ -8,7 +11,9 @@ class Program():
     program_range = None
 
     def __init__(self, name, program_range=None):
-        self.name = name
+        global programIndex
+        self.name = "%s-%d" % (name, programIndex)
+        programIndex += 1  # Bump the index after each program is created
         self.program_range = program_range
 
     def registerSystem(self, system: LEDSystem):
