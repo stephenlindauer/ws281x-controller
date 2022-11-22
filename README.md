@@ -8,6 +8,8 @@ This library is a wrapper around [rpi-ws281x-python](https://github.com/rpi-ws28
 
 The project also includes a webserver that contains a visualizer/simulator and a simple API for controlling the lights.
 
+The motivation behind the visualizer/simulator is to allow building / testing different animations without needing to run it on a Raspberry Pi or while having access to light strips. This makes for a much quicker development cycle and allowing you to test changes without interrupting the lights on your home.
+
 ![](https://stephenlindauer.s3.us-west-1.amazonaws.com/lights.gif)
 
 
