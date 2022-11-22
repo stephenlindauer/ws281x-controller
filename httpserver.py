@@ -73,14 +73,10 @@ class RequestHandler(BaseHTTPRequestHandler):
 class HTTPServerWrapper:
     internalServer = None
 
-    def setLedSystem(self, system):
-        if self.internalServer:
-            self.internalServer.led_system = system
-
-    def start(self):
+    def start(self, led_system):
         self.internalServer = HTTPServer((address, serverPort), RequestHandler)
         print("Webserver started http://%s:%s" % (address, serverPort))
-        self.internalServer.led_system = self.led_system
+        self.internalServer.led_system = led_system
 
         try:
             self.internalServer.serve_forever()

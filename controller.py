@@ -159,7 +159,7 @@ def preset3(system):
 def start_webserver():
     global http_server
     http_server = HTTPServerWrapper()
-    http_server.start()
+    http_server.start(system)
 
 
 def start_websocket():
@@ -170,10 +170,6 @@ def start_websocket():
 
 
 if __name__ == "__main__":
-    # Start web server and websocket server on separate threads
-    threading.Thread(target=start_webserver, name="http-server").start()
-    threading.Thread(target=start_websocket, name="websocket-server").start()
-
     def onUpdate(colors):
         """
         Updates the entire strip of lights all at once.
@@ -192,5 +188,6 @@ if __name__ == "__main__":
     system.registerPreset(preset3, "red-green")
     system.start()
 
-    http_server.setLedSystem(system)
-    http_server.led_system = system
+    # Start web server and websocket server on separate threads
+    threading.Thread(target=start_webserver, name="http-server").start()
+    threading.Thread(target=start_websocket, name="websocket-server").start()
