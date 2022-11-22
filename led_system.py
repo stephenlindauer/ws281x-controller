@@ -10,6 +10,7 @@ except Exception:
 from threading import Timer
 from typing import Callable, Optional
 from named_colors import NamedColor
+from datetime import datetime
 
 
 class LEDComponentObject:
@@ -38,7 +39,12 @@ class LEDComponentObject:
         depths.sort()
         for depth in depths:
             for p in self.programs[depth]:
+                # Timing perf logging
+                # time_start = datetime.now()
                 p.update(it)
+                # time_spent = datetime.now() - time_start
+                # time_spent_ms = time_spent.seconds * 1000 + time_spent.microseconds / 1000
+                # print("[DEBUG] %s update took %dms" % (p.name, time_spent_ms))
 
         # Then draw child components
         for component in self.components:
@@ -82,6 +88,7 @@ class LEDSystem:
     enabled: bool = True
     presetFunctions: dict[str, Callable] = {}
     currentPreset: str = None
+    isUpdating: bool = False
 
     def __init__(self, led_count=600, skip_intro=False):
         self.led_count = led_count
@@ -102,12 +109,32 @@ class LEDSystem:
         self.it += 1
         self._timer = Timer(1 / self.ups, self._update)
         self._timer.start()
+        time_start = datetime.now()
+        max_time_ms = 1/self.ups*1000
         try:
+            if self.isUpdating:
+                logging.warning(
+                    "Last update operation is still in progress, skip frame")
+                return
+            self.isUpdating = True
             self.update()
             self.strip.show()
+
+            time_spent = datetime.now() - time_start
+            time_spent_ms = time_spent.seconds * 1000 + time_spent.microseconds / 1000
+            if (time_spent_ms > max_time_ms):
+                """
+                If you end up hitting this warning often, it means your draw operations are too expensive.
+                Consider reducing the complexity of your programs or lower the updates per second (ups).
+                """
+                logging.warning("Spent %dms updating which is longer than a single draw cycle of %dms" % (
+                    time_spent.seconds * 1000 + time_spent.microseconds / 1000, max_time_ms))
             self.notifyChanges()
+            # print("[DEBUG] time spent updating: %dms" % time_spent_ms)
+            self.isUpdating = False
         except Exception as e:
             print("update() Exception: " + str(e))
+            self.isUpdating = False
 
     def setStripEnabled(self, enabled: bool):
         self.enabled = enabled
