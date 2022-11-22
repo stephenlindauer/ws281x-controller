@@ -156,6 +156,19 @@ def preset3(system):
             gap_rgb=[255, 0, 0]))
 
 
+def presetBluesColors(system):
+    blue = (0, 47, 135)
+    navy = (4, 30, 66)
+    yellow = (252, 181, 20)
+    white = (255, 255, 255)
+    system.getComponentByName("root").addProgram(
+        PatternProgram(
+            colors=[navy, white, yellow, blue],
+            multiplier=5,
+            speed=1),
+        15)
+
+
 def start_webserver():
     global http_server
     http_server = HTTPServerWrapper()
@@ -186,6 +199,7 @@ if __name__ == "__main__":
     system.registerPreset(preset1, "demo")
     system.registerPreset(preset2, "blue-white")
     system.registerPreset(preset3, "red-green")
+    system.registerPreset(presetBluesColors, "blues")
     system.start()
 
     # Start web server and websocket server on separate threads
