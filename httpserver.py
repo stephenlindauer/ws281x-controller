@@ -1,6 +1,7 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
 import os
+import urllib.parse
 
 address = "0.0.0.0"
 serverPort = 8080
@@ -34,39 +35,52 @@ class RequestHandler(BaseHTTPRequestHandler):
             self.render("404")
 
     def handleAPIRequest(self):
-        (_, api, endpoint, type) = self.path.split("/")
+        chunks = self.path.split("/")
+        if (len(chunks) == 3):
+            (_, api, endpoint) = chunks
+            extra = None
+        elif (len(chunks) > 3):
+            (_, api, endpoint, extra) = chunks
+
         if self.path == '/api/control/disable':
             self.server.led_system.setStripEnabled(False)
             self.apiResponse(200, {"enabled": False})
         elif self.path == '/api/control/enable':
             self.server.led_system.setStripEnabled(True)
             self.apiResponse(200, {"enabled": True})
+        elif (endpoint == 'state'):
+            self.handleStateRequest()
         elif (endpoint == 'components'):
-            self.handleComponentRequest(type)
+            self.handleComponentRequest()
         elif (endpoint == 'presets'):
-            self.handlePresetRequest(type)
+            self.handlePresetRequest(extra)
         else:
             self.apiResponse(404, {"error": "endpoint not found"})
 
     def apiResponse(self, response_code, data: dict):
-        self.send_response(200)
+        self.send_response(response_code)
         self.send_header("Content-type", "application/json")
         self.end_headers()
         self.wfile.write(bytes(json.dumps(data), "utf-8"))
 
-    def handleComponentRequest(self, animationType):
-        if (self.path == '/api/components/'):
-            self.apiResponse(200, {
-                "components": list(map(lambda c: c.toJSON(), self.server.led_system.components))
-            })
+    def handleComponentRequest(self):
+        self.apiResponse(200, {
+            "components": list(map(lambda c: c.toJSON(), self.server.led_system.components))
+        })
+
+    def handleStateRequest(self):
+        self.apiResponse(200, {
+            "enabled": self.server.led_system.enabled,
+            "preset": self.server.led_system.currentPreset,
+        })
 
     def handlePresetRequest(self, preset):
         if preset == None:
             self.apiResponse(200, {
-                "presets": ["TODO"]
+                "presets": list(self.server.led_system.presetFunctions.keys())
             })
         else:
-            self.server.led_system.usePreset(preset)
+            self.server.led_system.usePreset(urllib.parse.unquote(preset))
             self.apiResponse(200, {"status": "ok"})
 
 

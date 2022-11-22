@@ -42,13 +42,13 @@
 
       // Colors come in as a single integer representing the hex color, ie.. 16711680 = FF0000
       // This massages the int into hex strings we can pass directly to css
-      const colorize = (c) => {
+      function colorize(c) {
         // If color is blue (0000FF), the value comes in as just FF and needs to be prefixed with leading zeros.
         // Adding 0x1000000 ensures we get the needed padding, then we just pop off the leading "1"
         return (c + 0x1000000).toString(16).substring(1);
-      };
+      }
 
-      const setupStrip = (numLights) => {
+      function setupStrip(numLights) {
         lightsEl = document.getElementById("lights");
         lightsEl.innerHTML += "<span class='indexLabel'>0</span>";
         for (i = 0; i < numLights; i++) {
@@ -58,9 +58,9 @@
           }
           lightsEl.innerHTML += `<div id='light-${i}' class='light-preview'></div>`;
         }
-      };
+      }
 
-      window.onload = (event) => {
+      function setupWebsocket() {
         const socket = new WebSocket(`ws://${location.hostname}:8081`);
         // Connection opened
         socket.addEventListener("open", (event) => {
@@ -93,7 +93,21 @@
             }
           } catch (e) {}
         });
-      };
+      }
+
+      function fetchPresets() {
+        fetch("/api/presets")
+          .then((response) => response.json())
+          .then((data) => {
+            data.presets.forEach((preset) => {
+              document.getElementById(
+                "presets"
+              ).innerHTML += `<button onclick="usePreset('${encodeURIComponent(
+                preset
+              )}')">${preset}</button>`;
+            });
+          });
+      }
 
       function sendControlRequest(controlEndpoint) {
         fetch("/api/control/" + controlEndpoint);
@@ -102,6 +116,11 @@
       function usePreset(preset) {
         fetch("/api/presets/" + preset);
       }
+
+      window.onload = (event) => {
+        setupWebsocket();
+        fetchPresets();
+      };
     </script>
   </head>
   <body>
@@ -116,13 +135,7 @@
         <button onclick="sendControlRequest('disable')">Disable</button>
       </div>
       <div>Presets</div>
-      <div>
-        <button onclick="usePreset('demo')">Demo</button>
-        <button onclick="usePreset('blue-white')">Blue/White</button>
-        <button onclick="usePreset('red-green')">Red/Green</button>
-        <button onclick="usePreset('blues')">Blues</button>
-        <button onclick="usePreset('thanksgiving')">Thanksgiving</button>
-      </div>
+      <div id="presets"></div>
     </div>
   </body>
 </html>

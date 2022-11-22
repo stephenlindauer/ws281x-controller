@@ -124,6 +124,13 @@ def preset1(system):
     system.getComponentByName("section5").addProgram(
         GradientProgram(speed=-10, length=25),
         20)
+    system.getComponentByName("section6").addProgram(
+        PatternProgram(
+            colors=[(108, 47, 0), (158, 104, 42), (241, 185, 48),
+                    (181, 71, 48), (138, 151, 72)],
+            multiplier=6,
+            speed=0.2),
+        15)
 
 
 def preset2(system):
@@ -142,21 +149,13 @@ def preset3(system):
             stripe_rgb=[0, 255, 0],
             gap_rgb=[255, 0, 0]))
 
-    # system.getComponentByName("section3").addProgram(
-    #     CandyCaneProgram(
-    #         stripe_length=14,
-    #         gap_length=1,
-    #         speed=-10,
-    #         stripe_rgb=[0, 150, 0],
-    #         gap_rgb=[255, 0, 0]))
 
-
-def preset4(system):
+def presetThanksgiving(system):
     system.getComponentByName("root").addProgram(
         PatternProgram(
             colors=[(108, 47, 0), (158, 104, 42), (241, 185, 48),
                     (181, 71, 48), (138, 151, 72)],
-            multiplier=2,
+            multiplier=1,
             speed=0.2),
         15)
 
@@ -201,11 +200,11 @@ if __name__ == "__main__":
     system = LEDSystem(led_count=led_count)
     system.onChangeListener = onUpdate
     system.configure(componentConfig)
-    system.registerPreset(preset1, "demo")
-    system.registerPreset(preset2, "blue-white")
-    system.registerPreset(preset3, "red-green")
-    system.registerPreset(presetBluesColors, "blues")
-    system.registerPreset(preset4, "thanksgiving")
+    system.registerPreset(preset1, "Demo")
+    system.registerPreset(preset2, "Blue/White")
+    system.registerPreset(preset3, "Red/Green")
+    system.registerPreset(presetBluesColors, "Blues")
+    system.registerPreset(presetThanksgiving, "Thanksgiving")
     system.start()
 
     # Start web server and websocket server on separate threads
