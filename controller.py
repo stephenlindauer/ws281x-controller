@@ -133,15 +133,22 @@ def preset1(system):
         15)
 
 
-def preset2(system):
+def presetBlueWhiteShort(system):
     system.getComponentByName("root").addProgram(
         CandyCaneProgram(
             stripe_length=2,
             gap_length=2,
             stripe_rgb=[0, 0, 255]))
 
+def presetBlueWhiteLong(system):
+    system.getComponentByName("root").addProgram(
+        CandyCaneProgram(
+            stripe_length=2,
+            gap_length=9,
+            stripe_rgb=[0, 0, 255]))
 
-def preset3(system):
+
+def presetRedGreen(system):
     system.getComponentByName("root").addProgram(
         CandyCaneProgram(
             stripe_length=20,
@@ -207,8 +214,9 @@ if __name__ == "__main__":
     system.canSendUpdate = canSendUpdate
     system.configure(componentConfig)
     system.registerPreset(preset1, "Demo")
-    system.registerPreset(preset2, "Blue/White")
-    system.registerPreset(preset3, "Red/Green")
+    system.registerPreset(presetBlueWhiteShort, "Blue/White")
+    system.registerPreset(presetBlueWhiteLong, "Blue/Whiiiiiite")
+    system.registerPreset(presetRedGreen, "Red/Green")
     system.registerPreset(presetBluesColors, "Blues")
     system.registerPreset(presetThanksgiving, "Thanksgiving")
     system.start()
