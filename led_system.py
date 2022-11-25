@@ -191,8 +191,8 @@ class LEDSystem:
 
         # Create nested components
         if ("components" in c):
-            min_light = int('inf')
-            max_light_end = int('-inf')
+            min_light = float('inf')
+            max_light_end = float('-inf')
             for child in c["components"]:
                 child_component = self.parseComponentFromConfig(child)
                 component.components.append(child_component)
