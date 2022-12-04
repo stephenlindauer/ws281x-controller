@@ -214,13 +214,21 @@ def presetGreenRedSingles(system):
         PatternProgram(
             colors=[green, None, None, None, None, None],
             multiplier=1,
+<<<<<<< Updated upstream
             speed=-10),
+=======
+            speed=-1),
+>>>>>>> Stashed changes
         16)
     system.getComponentByName("root").addProgram(
         PatternProgram(
             colors=[red, None, None, None, None, None, None],
             multiplier=1,
+<<<<<<< Updated upstream
             speed=20),
+=======
+            speed=2),
+>>>>>>> Stashed changes
         16)
 
 
@@ -316,8 +324,13 @@ if __name__ == "__main__":
     system.configure(componentConfig)
     # system.registerPreset(preset1, "Demo")
     system.registerPreset(presetBlueWhiteLong, "Blue/Whiiiiiite")
+<<<<<<< Updated upstream
     system.registerPreset(presetGreenRedSingles, "Red/Green dots")
     system.registerPreset(presetBlueWhiteSingles, "Blue/White dots")
+=======
+    system.registerPreset(presetBlueWhiteSingles, "Blue/White dots")
+    system.registerPreset(presetGreenRedSingles, "Green/Red dots")
+>>>>>>> Stashed changes
     system.registerPreset(presetBlueWhiteShort, "Blue/White")
     system.registerPreset(presetBlueOffShort, "Blue/Off")
     system.registerPreset(presetSolidBlue, "Blue")
