@@ -67,7 +67,7 @@ class LEDComponentObject:
             r = range(self.light_begin + max(0, lightRange.start),
                       min(self.light_begin + self.length, lightRange.stop + self.light_begin))
         for i in r:
-            self.system._setPixelColor(i, color, True)
+            self.system._setPixelColor(i, color, False)
 
     def clearPrograms(self):
         for depth in self.programs.keys():
@@ -92,6 +92,7 @@ class LEDSystem:
     presetFunctions: dict[str, Callable] = {}
     currentPreset: str
     isUpdating: bool = False
+    disabled_leds: list[int]
 
     def __init__(self, led_count=600, skip_intro=False, simulate=False):
         self.led_count = led_count
@@ -100,6 +101,7 @@ class LEDSystem:
         self.lights = []
         self.nextId = 1
         self.currentPreset = None
+        self.disabled_leds = []
         for i in range(0, led_count):
             self.ledColor[i] = -1
 
@@ -203,6 +205,10 @@ class LEDSystem:
                 component.light_begin = min_light
             if component.length == 'infer':
                 component.length = max_light_end
+        
+        if "disabled" in c and c["disabled"]:
+            self.disabled_leds += range(component.light_begin, component.light_begin + component.length)
+        
         return component
 
     def paint(self, color, lightRange=None):
@@ -212,7 +218,7 @@ class LEDSystem:
         else:
             r = lightRange
         for i in r:
-            self._setPixelColor(i, color, True)
+            self._setPixelColor(i, color, False)
 
     def addProgram(self, program, depth=1):
         """Adds"""
@@ -247,10 +253,9 @@ class LEDSystem:
         return self.componentMap[name]
 
     def _setPixelColor(self, i, color, ignore_block_list=False):
-        block_list = list(range(420, 500))
         if i not in range(0, self.led_count):
             return
-        if i in block_list and not ignore_block_list:
+        if i in self.disabled_leds and not ignore_block_list:
             return
         self.ledColor[i] = color
         self.strip.setPixelColor(i, color)

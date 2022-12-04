@@ -22,50 +22,56 @@ from named_colors import NamedColor
 import json
 
 # How many LEDs in total are in the setup
-led_count = 250
+led_count = 277
 
 componentConfig = {
     "components": [
         {
             "label": "root",
             "light_begin": "infer",
-            "length": "infer",
+            "length": 277,
             "components": [
                 {
-                    "label": "section1",
+                    "label": "test_leds",
                     "light_begin": 0,
-                    "length": 50
+                    "length": 4
                 },
                 {
-                    "label": "section2",
-                    "light_begin": 50,
-                    "length": 150,
+                    "label": "bridge1",
+                    "disabled": True,
+                    "light_begin": 4,
+                    "length": 23
                 },
-                {
-                    "label": "section3",
-                    "light_begin": 200,
-                    "length": 150
-                },
-                {
-                    "label": "section4",
-                    "light_begin": 350,
-                    "length": 150
-                },
-                {
-                    "label": "section5",
-                    "light_begin": 500,
-                    "length": 150
-                },
-                {
-                    "label": "section6",
-                    "light_begin": 650,
-                    "length": 150
-                },
-                {
-                    "label": "section7",
-                    "light_begin": 800,
-                    "length": 200
-                },
+                # {
+                #     "label": "section2",
+                #     "light_begin": 77,
+                #     "length": 150,
+                # },
+                # {
+                #     "label": "section3",
+                #     "light_begin": 200,
+                #     "length": 150
+                # },
+                # {
+                #     "label": "section4",
+                #     "light_begin": 350,
+                #     "length": 150
+                # },
+                # {
+                #     "label": "section5",
+                #     "light_begin": 500,
+                #     "length": 150
+                # },
+                # {
+                #     "label": "section6",
+                #     "light_begin": 650,
+                #     "length": 150
+                # },
+                # {
+                #     "label": "section7",
+                #     "light_begin": 800,
+                #     "length": 200
+                # },
             ]
         },
     ]
