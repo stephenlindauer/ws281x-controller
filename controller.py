@@ -22,7 +22,7 @@ from named_colors import NamedColor
 import json
 
 # How many LEDs in total are in the setup
-led_count = 1000
+led_count = 250
 
 componentConfig = {
     "components": [
@@ -140,6 +140,7 @@ def presetBlueWhiteShort(system):
             gap_length=2,
             stripe_rgb=[0, 0, 255]))
 
+
 def presetBlueWhiteLong(system):
     system.getComponentByName("root").addProgram(
         CandyCaneProgram(
@@ -167,6 +168,62 @@ def presetThanksgiving(system):
         15)
 
 
+def presetBlueOffShort(system):
+    system.getComponentByName("root").addProgram(
+        CandyCaneProgram(
+            stripe_length=6,
+            gap_length=10,
+            gap_rgb=[0, 0, 0],
+            stripe_rgb=[0, 0, 255]))
+
+
+def presetBlueWhiteSingles(system):
+    blue = (0, 0, 255)
+    off = (0, 0, 0)
+    white = (255, 255, 255)
+    system.getComponentByName("root").addProgram(
+        PatternProgram(
+            colors=[white, off, off, off, blue, off, off, off, off, off, off],
+            multiplier=1,
+            speed=1),
+        15)
+    system.getComponentByName("root").addProgram(
+        PatternProgram(
+            colors=[white, None, None, None, None, None],
+            multiplier=1,
+            speed=-1),
+        16)
+    system.getComponentByName("root").addProgram(
+        PatternProgram(
+            colors=[blue, None, None, None, None, None, None],
+            multiplier=1,
+            speed=2),
+        16)
+
+def presetGreenRedSingles(system):
+    green = (0, 255, 0)
+    off = (0, 0, 0)
+    red = (255, 0, 0)
+    system.getComponentByName("root").addProgram(
+        PatternProgram(
+            colors=[green, off, off, off, red, off, off, off, off, off, off],
+            multiplier=1,
+            speed=1),
+        15)
+    system.getComponentByName("root").addProgram(
+        PatternProgram(
+            colors=[green, None, None, None, None, None],
+            multiplier=1,
+            speed=-10),
+        16)
+    system.getComponentByName("root").addProgram(
+        PatternProgram(
+            colors=[red, None, None, None, None, None, None],
+            multiplier=1,
+            speed=20),
+        16)
+
+
 def presetBluesColors(system):
     blue = (0, 47, 135)
     navy = (4, 30, 66)
@@ -178,6 +235,50 @@ def presetBluesColors(system):
             multiplier=6,
             speed=1),
         15)
+
+
+def presetSolidWhite(system):
+    system.getComponentByName("root").addProgram(
+        CandyCaneProgram(
+            stripe_length=20,
+            gap_length=0,
+            stripe_rgb=[255, 255, 255]))
+
+
+def presetSolidBlue(system):
+    system.getComponentByName("root").addProgram(
+        CandyCaneProgram(
+            stripe_length=20,
+            gap_length=0,
+            stripe_rgb=[0, 0, 255]))
+
+
+def presetSolidGreen(system):
+    system.getComponentByName("root").addProgram(
+        CandyCaneProgram(
+            stripe_length=20,
+            gap_length=0,
+            stripe_rgb=[0, 255, 0]))
+
+
+def presetSolidRed(system):
+    system.getComponentByName("root").addProgram(
+        CandyCaneProgram(
+            stripe_length=20,
+            gap_length=0,
+            stripe_rgb=[255, 0, 0]))
+
+
+def presetCandycane(system):
+    system.getComponentByName("root").addProgram(
+        GradientProgram(speed=-5, length=50),
+        10)
+    system.getComponentByName("root").addProgram(
+        CandyCaneProgram(
+            stripe_length=6,
+            gap_length=20,
+            gap_rgb=None),
+        20)
 
 
 def start_webserver():
@@ -213,12 +314,20 @@ if __name__ == "__main__":
     system.onChangeListener = onUpdate
     system.canSendUpdate = canSendUpdate
     system.configure(componentConfig)
-    system.registerPreset(preset1, "Demo")
-    system.registerPreset(presetBlueWhiteShort, "Blue/White")
+    # system.registerPreset(preset1, "Demo")
     system.registerPreset(presetBlueWhiteLong, "Blue/Whiiiiiite")
+    system.registerPreset(presetGreenRedSingles, "Red/Green dots")
+    system.registerPreset(presetBlueWhiteSingles, "Blue/White dots")
+    system.registerPreset(presetBlueWhiteShort, "Blue/White")
+    system.registerPreset(presetBlueOffShort, "Blue/Off")
+    system.registerPreset(presetSolidBlue, "Blue")
+    system.registerPreset(presetSolidRed, "Red")
+    system.registerPreset(presetSolidGreen, "Green")
+    system.registerPreset(presetSolidWhite, "White")
     system.registerPreset(presetRedGreen, "Red/Green")
     system.registerPreset(presetBluesColors, "Blues")
     system.registerPreset(presetThanksgiving, "Thanksgiving")
+    system.registerPreset(presetCandycane, "Candycane")
     system.start()
 
     # Start web server and websocket server on separate threads
