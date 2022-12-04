@@ -28,9 +28,10 @@ class PatternProgram(Program):
         while p <= self.component.length:
             for i in range(0, len(self.colors)):
                 color = self.colors[i]
-                self.paint(
-                    Color(int(color[0]), int(color[1]), int(color[2])),
-                    range(p + (i * self.multiplier),
-                          p + ((i+1) * self.multiplier))
-                )
+                if color:
+                    self.paint(
+                        Color(int(color[0]), int(color[1]), int(color[2])),
+                        range(p + (i * self.multiplier),
+                              p + ((i+1) * self.multiplier))
+                    )
             p += cycle
