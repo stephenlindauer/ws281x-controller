@@ -46,7 +46,24 @@ componentConfig = {
                 {
                     "label": "bottom_row",
                     "light_begin": 27,
-                    "length": 250
+                    "length": 250,
+                    "components": [
+                        {
+                            "label": "strip1",
+                            "light_begin": 27,
+                            "length": 100,
+                        },
+                        {
+                            "label": "strip2",
+                            "light_begin": 127,
+                            "length": 40,
+                        },
+                        {
+                            "label": "strip3",
+                            "light_begin": 167,
+                            "length": 110,
+                        },
+                    ]
                 },
                 {
                     "label": "top_row",
@@ -57,13 +74,35 @@ componentConfig = {
                             "label": "peak_right",
                             "light_begin": 277,
                             "length": 172,
-                            "components": []
+                            "components": [
+                                {
+                                    "label": "peak_right_r",
+                                    "light_begin": 277,
+                                    "length": 100,
+                                },
+                                {
+                                    "label": "peak_right_l",
+                                    "light_begin": 377,
+                                    "length": 72,
+                                },
+                            ]
                         },
                         {
                             "label": "peak_left",
                             "light_begin": 531,  # TODO: Verify
                             "length": 170,
-                            "components": []
+                            "components": [
+                                {
+                                    "label": "peak_left_r",
+                                    "light_begin": 531,
+                                    "length": 100,
+                                },
+                                {
+                                    "label": "peak_left_l",
+                                    "light_begin": 631,
+                                    "length": 70,
+                                },
+                            ]
                         },
                     ]
                 },
