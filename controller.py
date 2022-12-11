@@ -22,14 +22,15 @@ from named_colors import NamedColor
 import json
 
 # How many LEDs in total are in the setup
-led_count = 277
+# led_count = 277
+led_count = 800
 
 componentConfig = {
     "components": [
         {
             "label": "root",
             "light_begin": "infer",
-            "length": 277,
+            "length": led_count,
             "components": [
                 {
                     "label": "test_leds",
@@ -41,6 +42,22 @@ componentConfig = {
                     "disabled": True,
                     "light_begin": 4,
                     "length": 23
+                },
+                {
+                    "label": "bottom_row",
+                    "light_begin": 27,
+                    "length": 250
+                },
+                {
+                    "label": "top_row",
+                    "light_begin": 277,
+                    "length": 523
+                },
+                {
+                    "label": "bridge2",
+                    "disabled": True,
+                    "light_begin": 449,
+                    "length": 82
                 },
                 # {
                 #     "label": "section2",
@@ -140,9 +157,15 @@ def preset1(system):
 
 
 def presetBlueWhiteShort(system):
-    system.getComponentByName("root").addProgram(
+    system.getComponentByName("top_row").addProgram(
         CandyCaneProgram(
             stripe_length=2,
+            gap_length=2,
+            stripe_rgb=[0, 0, 255]))
+    system.getComponentByName("bottom_row").addProgram(
+        CandyCaneProgram(
+            stripe_length=2,
+            speed=-10,
             gap_length=2,
             stripe_rgb=[0, 0, 255]))
 
@@ -156,10 +179,17 @@ def presetBlueWhiteLong(system):
 
 
 def presetRedGreen(system):
-    system.getComponentByName("root").addProgram(
+    system.getComponentByName("bottom_row").addProgram(
         CandyCaneProgram(
             stripe_length=20,
             gap_length=20,
+            stripe_rgb=[0, 255, 0],
+            gap_rgb=[255, 0, 0]))
+    system.getComponentByName("top_row").addProgram(
+        CandyCaneProgram(
+            stripe_length=20,
+            gap_length=20,
+            speed=-10,
             stripe_rgb=[0, 255, 0],
             gap_rgb=[255, 0, 0]))
 
@@ -212,19 +242,19 @@ def presetGreenRedSingles(system):
     red = (255, 0, 0)
     system.getComponentByName("root").addProgram(
         PatternProgram(
-            colors=[green, off, off, off, red, off, off, off, off, off, off],
+            colors=[green, off, off, off, off, off, red, off, off, off, off, off, off, off, off],
             multiplier=1,
             speed=1),
         15)
     system.getComponentByName("root").addProgram(
         PatternProgram(
-            colors=[green, None, None, None, None, None],
+            colors=[green, None, None, None, None, None, None, None],
             multiplier=1,
             speed=-10),
         16)
     system.getComponentByName("root").addProgram(
         PatternProgram(
-            colors=[red, None, None, None, None, None, None],
+            colors=[red, None, None, None, None, None, None, None, None],
             multiplier=1,
             speed=20),
         16)
