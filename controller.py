@@ -342,15 +342,48 @@ def presetSolidRed(system):
 
 
 def presetCandycane(system):
-    system.getComponentByName("root").addProgram(
-        GradientProgram(speed=-5, length=50),
+    gap = 30
+    stripe = 6
+    system.getComponentByName("bottom_row").addProgram(
+        GradientProgram(speed=-5,
+                        length=55,
+                        start_color=(-100, -100, -100)),
         10)
-    system.getComponentByName("root").addProgram(
+    system.getComponentByName("bottom_row").addProgram(
         CandyCaneProgram(
-            stripe_length=6,
-            gap_length=20,
+            stripe_length=stripe,
+            gap_length=gap,
             gap_rgb=None),
         20)
+    system.getComponentByName("bottom_row").addProgram(
+        CandyCaneProgram(
+            stripe_length=stripe,
+            offset=(gap+stripe)/2,
+            stripe_rgb=(0, 255, 0),
+            gap_length=gap,
+            gap_rgb=None),
+        21)
+    system.getComponentByName("top_row").addProgram(
+        GradientProgram(speed=5,
+                        length=55,
+                        start_color=(-100, -100, -100)),
+        10)
+    system.getComponentByName("top_row").addProgram(
+        CandyCaneProgram(
+            stripe_length=stripe,
+            speed=-10,
+            gap_length=gap,
+            gap_rgb=None),
+        20)
+    system.getComponentByName("top_row").addProgram(
+        CandyCaneProgram(
+            stripe_length=stripe,
+            offset=(gap+stripe)/2,
+            stripe_rgb=(0, 255, 0),
+            speed=-10,
+            gap_length=gap,
+            gap_rgb=None),
+        21)
 
 
 def start_webserver():

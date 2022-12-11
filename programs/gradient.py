@@ -39,16 +39,16 @@ class GradientProgram(Program):
                 )
                 self.paint(
                     Color(
-                        int(color[0]),
-                        int(color[1]),
-                        int(color[2])),
+                        min(255, max(0, int(color[0]))),
+                        min(255, max(0, int(color[1]))),
+                        min(255, max(0, int(color[2])))),
                     range(p + i, p + i+1)
                 )
                 self.paint(
                     Color(
-                        int(color[0]),
-                        int(color[1]),
-                        int(color[2])),
+                        min(255, max(0, int(color[0]))),
+                        min(255, max(0, int(color[1]))),
+                        min(255, max(0, int(color[2])))),
                     range(p + cycle - i, p + cycle - i + 1)
                 )
             p += cycle
