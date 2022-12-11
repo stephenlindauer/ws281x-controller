@@ -51,7 +51,21 @@ componentConfig = {
                 {
                     "label": "top_row",
                     "light_begin": 277,
-                    "length": 523
+                    "length": 523,
+                    "components": [
+                        {
+                            "label": "peak_right",
+                            "light_begin": 277,
+                            "length": 172,
+                            "components": []
+                        },
+                        {
+                            "label": "peak_left",
+                            "light_begin": 531,  # TODO: Verify
+                            "length": 170,
+                            "components": []
+                        },
+                    ]
                 },
                 {
                     "label": "bridge2",
@@ -236,13 +250,15 @@ def presetBlueWhiteSingles(system):
             speed=2),
         16)
 
+
 def presetGreenRedSingles(system):
     green = (0, 255, 0)
     off = (0, 0, 0)
     red = (255, 0, 0)
     system.getComponentByName("root").addProgram(
         PatternProgram(
-            colors=[green, off, off, off, off, off, red, off, off, off, off, off, off, off, off],
+            colors=[green, off, off, off, off, off, red,
+                    off, off, off, off, off, off, off, off],
             multiplier=1,
             speed=1),
         15)
@@ -257,6 +273,26 @@ def presetGreenRedSingles(system):
             colors=[red, None, None, None, None, None, None, None, None],
             multiplier=1,
             speed=20),
+        16)
+
+
+def presetStars(system):
+    off = (0, 0, 0)
+    system.getComponentByName("root").addProgram(
+        PatternProgram(
+            colors=[(255, 255, 255), off, off, off, off, off, off, off, off, off,
+                    (200, 200, 200), off, off, off, off, off, off,
+                    (150, 150, 150), off, off, off, off, off, off, off, off, off, off, off],
+            multiplier=1,
+            speed=1),
+        15)
+    system.getComponentByName("root").addProgram(
+        PatternProgram(
+            colors=[(100, 100, 100), None, None, off, None, None, None, off, None, None, None, off, None,
+                    (200, 200, 200), off, None, None,
+                    (150, 150, 150), None, None, None, None, off, off, None, None, off],
+            multiplier=1,
+            speed=-0.5),
         16)
 
 
@@ -351,6 +387,7 @@ if __name__ == "__main__":
     system.canSendUpdate = canSendUpdate
     system.configure(componentConfig)
     # system.registerPreset(preset1, "Demo")
+    system.registerPreset(presetStars, "Stars")
     system.registerPreset(presetBlueWhiteLong, "Blue/Whiiiiiite")
     system.registerPreset(presetGreenRedSingles, "Red/Green dots")
     system.registerPreset(presetBlueWhiteSingles, "Blue/White dots")
