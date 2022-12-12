@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # How to Start/Stop service:
-# sudo systemctl start lights
+# sudo systemctl stop lights && sudo systemctl start lights
 # sudo systemctl stop lights
 
 try:
@@ -348,6 +348,24 @@ def presetBluesColors(system):
         15)
 
 
+def presetChiefsColors(system):
+    red = (255, 0, 0)
+    yellow = (252, 181, 20)
+    white = (255, 255, 255)
+    system.getComponentByName("top_row").addProgram(
+        PatternProgram(
+            colors=[red, red, white, yellow, red, red, yellow, white],
+            multiplier=6,
+            speed=20),
+        15)
+    system.getComponentByName("bottom_row").addProgram(
+        PatternProgram(
+            colors=[red, red, white, yellow, red, red, yellow, white],
+            multiplier=6,
+            speed=-20),
+        15)
+
+
 def presetSolidWhite(system):
     system.getComponentByName("root").addProgram(
         CandyCaneProgram(
@@ -470,6 +488,7 @@ if __name__ == "__main__":
     system.registerPreset(presetSolidGreen, "Green")
     system.registerPreset(presetSolidWhite, "White")
     system.registerPreset(presetRedGreen, "Red/Green")
+    system.registerPreset(presetChiefsColors, "Chiefs")
     system.registerPreset(presetBluesColors, "Blues")
     system.registerPreset(presetThanksgiving, "Thanksgiving")
     system.registerPreset(presetCandycane, "Candycane")
