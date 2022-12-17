@@ -366,6 +366,18 @@ def presetChiefsColors(system):
         15)
 
 
+def presetRedWhiteStill(system):
+    red = (255, 0, 0)
+    white = (255, 210, 120)
+    off = (0, 0, 0)
+    system.getComponentByName("root").addProgram(
+        PatternProgram(
+            colors=[red, off, white, off],
+            multiplier=2,
+            speed=0.1),
+        15)
+
+
 def presetSolidWhite(system):
     system.getComponentByName("root").addProgram(
         CandyCaneProgram(
@@ -479,6 +491,7 @@ if __name__ == "__main__":
     # system.registerPreset(preset1, "Demo")
     system.registerPreset(presetStars, "Stars")
     system.registerPreset(presetBlueWhiteLong, "Blue/Whiiiiiite")
+    system.registerPreset(presetRedWhiteStill, "Red/White still")
     system.registerPreset(presetGreenRedSingles, "Red/Green dots")
     system.registerPreset(presetBlueWhiteSingles, "Blue/White dots")
     system.registerPreset(presetBlueWhiteShort, "Blue/White")
