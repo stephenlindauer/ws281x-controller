@@ -506,6 +506,16 @@ if __name__ == "__main__":
     system.registerPreset(presetThanksgiving, "Thanksgiving")
     system.registerPreset(presetCandycane, "Candycane")
     system.start()
+    availablePresets = [
+        "Red/White still",
+        "Stars",
+        "Red/Green dots",
+        "Blue/White dots",
+        "Blue/White",
+        "Red/Green",
+        "Candycane",
+    ]
+    system.selectRandomPreset(availablePresets, 60 * 60)  # Change every hour
 
     # Start web server and websocket server on separate threads
     threading.Thread(target=start_webserver, name="http-server").start()

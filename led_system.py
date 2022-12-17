@@ -11,6 +11,7 @@ from threading import Timer
 from typing import Callable, Optional
 from named_colors import NamedColor
 from datetime import datetime
+import random
 
 
 class LEDComponentObject:
@@ -112,6 +113,18 @@ class LEDSystem:
 
         self._update()
 
+    def selectRandomPreset(self, presets, frequency=None):
+        print("selectRandomPreset with frequency %s" % frequency)
+        p = presets[random.randrange(len(presets))]
+        self.usePreset(p)
+        if (frequency == None):
+            return
+
+        # At regular interval
+        self._changeTimer = Timer(
+            frequency, self.selectRandomPreset, [presets, frequency])
+        self._changeTimer.start()
+
     def _update(self):
         self.it += 1
         self._timer = Timer(1 / self.ups, self._update)
@@ -205,10 +218,11 @@ class LEDSystem:
                 component.light_begin = min_light
             if component.length == 'infer':
                 component.length = max_light_end
-        
+
         if "disabled" in c and c["disabled"]:
-            self.disabled_leds += range(component.light_begin, component.light_begin + component.length)
-        
+            self.disabled_leds += range(component.light_begin,
+                                        component.light_begin + component.length)
+
         return component
 
     def paint(self, color, lightRange=None):
