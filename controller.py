@@ -367,11 +367,11 @@ def presetChiefsColors(system):
 
 
 def presetWhiteStatic(system):
-    white = (255, 255, 150)
+    white = (255, 255, 100)
     off = (0, 0, 0)
     system.getComponentByName("root").addProgram(
         PatternProgram(
-            colors=[off, white, off, off, off, off, off, off, off, off, off],
+            colors=[off, white, off, off, off, off, off, off, off, off, off, off, off, off, off, off, off, off, off, off, off, off],
             multiplier=1,
             speed=0.001),
         15)
