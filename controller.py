@@ -366,6 +366,17 @@ def presetChiefsColors(system):
         15)
 
 
+def presetWhiteStatic(system):
+    white = (255, 255, 200)
+    off = (0, 0, 0)
+    system.getComponentByName("root").addProgram(
+        PatternProgram(
+            colors=[off, white, off, off, off, off, off, off, off, off],
+            multiplier=1,
+            speed=0.001),
+        15)
+
+
 def presetRedWhiteStill(system):
     red = (255, 0, 0)
     white = (255, 210, 120)
@@ -505,17 +516,18 @@ if __name__ == "__main__":
     system.registerPreset(presetBluesColors, "Blues")
     system.registerPreset(presetThanksgiving, "Thanksgiving")
     system.registerPreset(presetCandycane, "Candycane")
+    system.registerPreset(presetWhiteStatic, "White Static")
     system.start()
-    availablePresets = [
-        "Red/White still",
-        "Stars",
-        "Red/Green dots",
-        "Blue/White dots",
-        "Blue/White",
-        "Red/Green",
-        "Candycane",
-    ]
-    system.selectRandomPreset(availablePresets, 60 * 60)  # Change every hour
+    # availablePresets = [
+    #     "Red/White still",
+    #     "Stars",
+    #     "Red/Green dots",
+    #     "Blue/White dots",
+    #     "Blue/White",
+    #     "Red/Green",
+    #     "Candycane",
+    # ]
+    # system.selectRandomPreset(availablePresets, 60 * 60)  # Change every hour
 
     # Start web server and websocket server on separate threads
     threading.Thread(target=start_webserver, name="http-server").start()
