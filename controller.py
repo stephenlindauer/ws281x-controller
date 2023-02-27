@@ -367,11 +367,11 @@ def presetChiefsColors(system):
 
 
 def presetWhiteStatic(system):
-    white = (255, 255, 200)
+    white = (255, 255, 150)
     off = (0, 0, 0)
     system.getComponentByName("root").addProgram(
         PatternProgram(
-            colors=[off, white, off, off, off, off, off, off, off, off],
+            colors=[off, white, off, off, off, off, off, off, off, off, off],
             multiplier=1,
             speed=0.001),
         15)
@@ -500,6 +500,7 @@ if __name__ == "__main__":
     system.canSendUpdate = canSendUpdate
     system.configure(componentConfig)
     # system.registerPreset(preset1, "Demo")
+    system.registerPreset(presetWhiteStatic, "White Static")
     system.registerPreset(presetStars, "Stars")
     system.registerPreset(presetBlueWhiteLong, "Blue/Whiiiiiite")
     system.registerPreset(presetRedWhiteStill, "Red/White still")
@@ -516,7 +517,6 @@ if __name__ == "__main__":
     system.registerPreset(presetBluesColors, "Blues")
     system.registerPreset(presetThanksgiving, "Thanksgiving")
     system.registerPreset(presetCandycane, "Candycane")
-    system.registerPreset(presetWhiteStatic, "White Static")
     system.start()
     # availablePresets = [
     #     "Red/White still",
