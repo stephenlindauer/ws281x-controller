@@ -366,12 +366,24 @@ def presetChiefsColors(system):
         15)
 
 
+def presetStPats(system):
+    on = (0, 255, 0)
+    off = (0, 0, 0)
+    system.getComponentByName("root").addProgram(
+        PatternProgram(
+            colors=[off, on, on, off, off, off, off, off, off, off],
+            multiplier=1,
+            speed=0.1),
+        15)
+
+
 def presetWhiteStatic(system):
     white = (255, 255, 100)
     off = (0, 0, 0)
     system.getComponentByName("root").addProgram(
         PatternProgram(
-            colors=[off, white, off, off, off, off, off, off, off, off, off, off, off, off, off, off, off, off, off, off, off, off],
+            colors=[off, white, off, off, off, off, off, off, off, off,
+                    off, off, off, off, off, off, off, off, off, off, off, off],
             multiplier=1,
             speed=0.001),
         15)
@@ -500,6 +512,7 @@ if __name__ == "__main__":
     system.canSendUpdate = canSendUpdate
     system.configure(componentConfig)
     # system.registerPreset(preset1, "Demo")
+    system.registerPreset(presetStPats, "St Pats Day")
     system.registerPreset(presetWhiteStatic, "White Static")
     system.registerPreset(presetStars, "Stars")
     system.registerPreset(presetBlueWhiteLong, "Blue/Whiiiiiite")
