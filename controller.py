@@ -512,8 +512,8 @@ if __name__ == "__main__":
     system.canSendUpdate = canSendUpdate
     system.configure(componentConfig)
     # system.registerPreset(preset1, "Demo")
-    system.registerPreset(presetStPats, "St Pats Day")
     system.registerPreset(presetWhiteStatic, "White Static")
+    system.registerPreset(presetStPats, "St Pats Day")
     system.registerPreset(presetStars, "Stars")
     system.registerPreset(presetBlueWhiteLong, "Blue/Whiiiiiite")
     system.registerPreset(presetRedWhiteStill, "Red/White still")
