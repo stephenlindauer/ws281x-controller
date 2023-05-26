@@ -8,18 +8,21 @@ try:
     from rpi_ws281x import Color
 except Exception:
     from rpi_stub import Color
-from led_system import LEDSystem
-from programs.strobe import StrobeProgram
-from programs.heartbeat import HeartbeatProgram
-from programs.tail import TailProgram
-from programs.candycane import CandyCaneProgram
-from programs.pattern import PatternProgram
-from programs.gradient import GradientProgram
-import threading
-from wsserver import WebSocketServer
-from httpserver import HTTPServerWrapper
-from named_colors import NamedColor
+
 import json
+import threading
+
+from httpserver import HTTPServerWrapper
+from led_system import LEDSystem
+from named_colors import NamedColor
+from programs.candycane import CandyCaneProgram
+from programs.gradient import GradientProgram
+from programs.heartbeat import HeartbeatProgram
+from programs.pattern import PatternProgram
+from programs.strobe import StrobeProgram
+from programs.tail import TailProgram
+from programs.twinkle import TwinkleProgram
+from wsserver import WebSocketServer
 
 # How many LEDs in total are in the setup
 # led_count = 277
@@ -290,6 +293,36 @@ def presetBlueWhiteSingles(system):
         16)
 
 
+def presetRedWhiteBlue(system):
+    blue = (0, 0, 255)
+    off = (0, 0, 0)
+    white = (255, 255, 255)
+    red = (255, 0, 0)
+
+    system.getComponentByName("root").addProgram(
+        PatternProgram(
+            colors=[red, off, off, off, white, off,
+                    off, off, blue, off, off, off],
+            multiplier=1,
+            speed=1),
+        15)
+
+
+def presetRedWhiteBlueTwinkle(system):
+    blue = (0, 0, 255)
+    off = (0, 0, 0)
+    white = (255, 255, 255)
+    red = (255, 0, 0)
+
+    system.getComponentByName("root").addProgram(
+        TwinkleProgram(
+            colors=[red, off, off, off, white, off,
+                    off, off, blue, off, off, off],
+            multiplier=1,
+            speed=0.25),
+        15)
+
+
 def presetGreenRedSingles(system):
     green = (0, 255, 0)
     off = (0, 0, 0)
@@ -512,6 +545,8 @@ if __name__ == "__main__":
     system.canSendUpdate = canSendUpdate
     system.configure(componentConfig)
     # system.registerPreset(preset1, "Demo")
+    system.registerPreset(presetRedWhiteBlueTwinkle, "RWB Twinkle")
+    system.registerPreset(presetRedWhiteBlue, "Red/White/Blue")
     system.registerPreset(presetWhiteStatic, "White Static")
     system.registerPreset(presetStPats, "St Pats Day")
     system.registerPreset(presetStars, "Stars")
