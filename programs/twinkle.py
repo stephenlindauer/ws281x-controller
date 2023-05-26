@@ -28,7 +28,7 @@ class TwinkleProgram(Program):
     def registerSystem(self, system: LEDSystem):
         super().registerSystem(system)
         for i in range(0, system.led_count):
-            self.alphas.append(random.randint(0, 199))
+            self.alphas.append(random.randint(0, 300))
 
     def update(self, it):
         cycle = len(self.colors) * self.multiplier
@@ -42,7 +42,7 @@ class TwinkleProgram(Program):
                     a = self.alphas[idx]
 
                     # Wrap
-                    if a > 200:
+                    if a > 300:
                         a = 0
 
                     self.alphas[idx] = a+1

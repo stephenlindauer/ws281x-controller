@@ -316,10 +316,10 @@ def presetRedWhiteBlueTwinkle(system):
 
     system.getComponentByName("root").addProgram(
         TwinkleProgram(
-            colors=[red, off, off, off, white, off,
-                    off, off, blue, off, off, off],
+            colors=[red, off, off, white, off,
+                    off, blue, off, off],
             multiplier=1,
-            speed=0.25),
+            speed=0),
         15)
 
 
